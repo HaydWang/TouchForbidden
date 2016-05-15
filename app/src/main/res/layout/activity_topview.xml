@@ -3,13 +3,12 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@android:color/holo_blue_light">
+    android:background="@android:color/transparent">
 
-    <Button
-        android:id="@+id/button_temp"
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="FREZNE"
-        android:layout_gravity="center_horizontal" />
-
+        android:id="@+id/button_temp"
+        android:src="@drawable/ic_unlock_24"
+        android:background="@drawable/shape" />
 </LinearLayout>
