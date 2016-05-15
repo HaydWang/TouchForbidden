@@ -1,12 +1,10 @@
-package com.droidrise.touchforbidden;
+package com.droidrise.touchblock;
 
-import android.app.Activity;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.Settings;
+import android.os.IBinder;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,7 +13,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-public class MainActivity extends Activity {
+/**
+ * Created by a22460 on 16/5/15.
+ */
+public class TopViewService extends Service {
     WindowManager windowManager;
     WindowManager.LayoutParams params;
 
@@ -26,17 +27,29 @@ public class MainActivity extends Activity {
     ImageButton btnLock;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
 
         // TODO: create forground service to hold top view
         createFloatView();
-
-        finish();
     }
 
-    private void createFloatView()
-    {
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    private void createFloatView() {
         LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
         topView = (RelativeLayout) inflater.inflate(R.layout.activity_topview, null, false);
 
@@ -52,7 +65,7 @@ public class MainActivity extends Activity {
 
                     forbidden = false;
                 } else {
-                    params.flags =  WindowManager.LayoutParams.FLAG_FULLSCREEN;
+                    params.flags = WindowManager.LayoutParams.FLAG_FULLSCREEN;
                     windowManager.updateViewLayout(topView, params);
                     btnLock.setImageResource(R.drawable.ic_lock_24);
 
@@ -103,27 +116,4 @@ public class MainActivity extends Activity {
 
         windowManager.addView(topView, params);
     }
-
-    public final static int REQUEST_CODE = 100;
-
-    // Not necessary if use TYPE_TOAST
-    public void checkDrawOverlayPermission() {
-        if (!Settings.canDrawOverlays(this)) {
-            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                    Uri.parse("package:" + getPackageName()));
-            startActivityForResult(intent, REQUEST_CODE);
-        } else {
-            createFloatView();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode,  Intent data) {
-        if (requestCode == REQUEST_CODE) {
-            if (Settings.canDrawOverlays(this)) {
-                createFloatView();
-            }
-        }
-    }
-
 }
