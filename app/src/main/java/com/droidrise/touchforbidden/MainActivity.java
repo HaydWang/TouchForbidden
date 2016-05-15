@@ -12,14 +12,18 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 public class MainActivity extends Activity {
-    ImageButton btnLock;
-    boolean forbidden = false;
     WindowManager windowManager;
-    LinearLayout topView;
     WindowManager.LayoutParams params;
+
+    boolean forbidden = false;
+
+    RelativeLayout topView;
+    ImageView imageHandle;
+    ImageButton btnLock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +38,8 @@ public class MainActivity extends Activity {
     private void createFloatView()
     {
         LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
-        topView = (LinearLayout) inflater.inflate(R.layout.activity_topview, null, false);
+        topView = (RelativeLayout) inflater.inflate(R.layout.activity_topview, null, false);
+
         btnLock = (ImageButton) topView.findViewById(R.id.button_temp);
         btnLock.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,32 +61,20 @@ public class MainActivity extends Activity {
             }
         });
 
-        windowManager = (WindowManager) getApplicationContext().getSystemService(
-                Context.WINDOW_SERVICE);
-        params = new WindowManager.LayoutParams();
-        params.type = WindowManager.LayoutParams.TYPE_TOAST;
-        params.format = PixelFormat.RGBA_8888;
-        params.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-        params.flags |= WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
-
-        params.width = 400;
-        params.height = 150;
-
-        topView.setOnTouchListener(new View.OnTouchListener()
-        {
+        imageHandle = (ImageView) topView.findViewById(R.id.image_handle);
+        imageHandle.setOnTouchListener(new View.OnTouchListener() {
             int lastX, lastY;
             int paramX, paramY;
 
-            public boolean onTouch(View v, MotionEvent event)
-            {
-                switch (event.getAction())
-                {
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         lastX = (int) event.getRawX();
                         lastY = (int) event.getRawY();
-                        paramX = params.x;
-                        paramY = params.y;
+                        if (forbidden != true) {
+                            paramX = params.x;
+                            paramY = params.y;
+                        }
                         break;
                     case MotionEvent.ACTION_MOVE:
                         int dx = (int) event.getRawX() - lastX;
@@ -94,6 +87,19 @@ public class MainActivity extends Activity {
                 return true;
             }
         });
+
+        windowManager = (WindowManager) getApplicationContext().getSystemService(
+                Context.WINDOW_SERVICE);
+        params = new WindowManager.LayoutParams();
+        params.type = WindowManager.LayoutParams.TYPE_TOAST;
+        params.format = PixelFormat.RGBA_8888;
+        params.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+        params.flags |= WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
+
+        // TODO: set base on screen resolution
+        params.width = 148;
+        params.height = 96;
 
         windowManager.addView(topView, params);
     }
