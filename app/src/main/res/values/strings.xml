@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Touch Block</string>
+    <string name="screen_unlocked">Screen touch restored</string>
+    <string name="screen_locked">Screen touch is blocked</string>
 </resources>

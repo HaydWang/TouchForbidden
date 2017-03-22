@@ -5,20 +5,11 @@
     android:layout_height="wrap_content"
     android:background="@android:color/transparent">
 
-    <ImageView
+    <ImageButton
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:id="@+id/image_handle"
-        android:src="@drawable/ic_handle"
-        android:background="@drawable/shape"
-        android:scaleType="centerCrop"
-        android:paddingLeft="36dp" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_temp"
-        android:src="@drawable/ic_unlock_24"
+        android:id="@+id/button_lock"
+        android:src="@drawable/ic_lock_open_orange_24dp"
         android:background="@drawable/shape" />
 
 </RelativeLayout>

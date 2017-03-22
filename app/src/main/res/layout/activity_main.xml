@@ -10,8 +10,5 @@
     android:background="@android:color/transparent"
     tools:context="com.droidrise.touchblock.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+
 </RelativeLayout>
